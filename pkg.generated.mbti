@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "username/moonrewardforge"
+package "wdkwdk89/moonrewardforge"
 
 import {
   "moonbitlang/core/debug",
@@ -35,6 +35,8 @@ pub fn render_trace(Array[RewardStep], RewardConfig) -> String
 pub fn safe_div(Double, Double, Double) -> Double
 
 pub fn sample_configs() -> Array[RewardConfig]
+
+pub fn sample_scenarios() -> Array[RewardScenario]
 
 pub fn sample_terms() -> Array[RewardTerm]
 
@@ -86,6 +88,11 @@ pub enum RewardKind {
   Penalty
 } derive(@debug.Debug)
 
+pub struct RewardScenario {
+  name : String
+  steps : Array[RewardStep]
+} derive(@debug.Debug)
+
 pub struct RewardStep {
   index : Int
   terms : Array[RewardTerm]
@@ -116,6 +123,8 @@ pub struct TraceSummary {
   mut worst_step : Int
   mut best_score : Double
   mut worst_score : Double
+  mut terminal_score : Double
+  mut reward_span : Double
 } derive(@debug.Debug)
 
 // Type aliases
