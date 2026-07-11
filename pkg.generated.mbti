@@ -1,0 +1,124 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonrewardforge"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn abs_value(Double) -> Double
+
+pub fn clamp(Double, Double, Double) -> Double
+
+pub fn count_sparse_terms(Array[RewardTerm]) -> Int
+
+pub fn default_config() -> RewardConfig
+
+pub fn evaluate_step(RewardStep, RewardConfig) -> RewardBreakdown
+
+pub fn evaluate_trace(Array[RewardStep], RewardConfig) -> (Array[RewardBreakdown], TraceSummary)
+
+pub fn max_double(Double, Double) -> Double
+
+pub fn min_double(Double, Double) -> Double
+
+pub fn oscillating_terms() -> Array[RewardTerm]
+
+pub fn render_breakdown(RewardBreakdown) -> String
+
+pub fn render_scenario_matrix() -> String
+
+pub fn render_summary(TraceSummary) -> String
+
+pub fn render_trace(Array[RewardStep], RewardConfig) -> String
+
+pub fn safe_div(Double, Double, Double) -> Double
+
+pub fn sample_configs() -> Array[RewardConfig]
+
+pub fn sample_terms() -> Array[RewardTerm]
+
+pub fn sample_trace() -> Array[RewardStep]
+
+pub fn sparse_terms() -> Array[RewardTerm]
+
+pub fn sum_contributions(Array[RewardTerm]) -> Double
+
+pub fn sum_raw(Array[RewardTerm]) -> Double
+
+// Errors
+
+// Types and methods
+pub enum NormalizationMode {
+  None
+  ScaleToAbsSum
+  ZScore
+} derive(@debug.Debug)
+pub fn NormalizationMode::label(Self) -> String
+
+pub struct RewardBreakdown {
+  step_index : Int
+  term_count : Int
+  raw_total : Double
+  weighted_total : Double
+  normalized_total : Double
+  clipped_total : Double
+  mean : Double
+  spread : Double
+  sparse_terms : Int
+  zero_ratio : Double
+  shaping_share : Double
+  penalty_share : Double
+  dominant_name : String
+  terminal : Bool
+} derive(@debug.Debug)
+
+pub struct RewardConfig {
+  mode : NormalizationMode
+  clip_min : Double
+  clip_max : Double
+  epsilon : Double
+} derive(@debug.Debug)
+
+pub enum RewardKind {
+  Base
+  Shaping
+  Penalty
+} derive(@debug.Debug)
+
+pub struct RewardStep {
+  index : Int
+  terms : Array[RewardTerm]
+  terminal : Bool
+} derive(@debug.Debug)
+
+pub struct RewardTerm {
+  name : String
+  raw : Double
+  weight : Double
+  kind : RewardKind
+} derive(@debug.Debug)
+pub fn RewardTerm::contribution(Self) -> Double
+pub fn RewardTerm::is_penalty(Self) -> Bool
+pub fn RewardTerm::is_shaping(Self) -> Bool
+pub fn RewardTerm::is_sparse(Self) -> Bool
+
+pub struct TraceSummary {
+  mut step_count : Int
+  mut sparse_steps : Int
+  mut clipped_steps : Int
+  mut avg_zero_ratio : Double
+  mut total_raw : Double
+  mut total_weighted : Double
+  mut total_normalized : Double
+  mut total_clipped : Double
+  mut best_step : Int
+  mut worst_step : Int
+  mut best_score : Double
+  mut worst_score : Double
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits
+
