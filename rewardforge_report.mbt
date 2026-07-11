@@ -31,6 +31,8 @@ pub fn render_summary(summary : TraceSummary) -> String {
   text = text + "  total_clipped: \{summary.total_clipped}\n"
   text = text + "  best_step: \{summary.best_step} (\{summary.best_score})\n"
   text = text + "  worst_step: \{summary.worst_step} (\{summary.worst_score})\n"
+  text = text + "  terminal_score: \{summary.terminal_score}\n"
+  text = text + "  reward_span: \{summary.reward_span}\n"
   text
 }
 

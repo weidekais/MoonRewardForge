@@ -67,6 +67,8 @@ pub struct TraceSummary {
   mut worst_step : Int
   mut best_score : Double
   mut worst_score : Double
+  mut terminal_score : Double
+  mut reward_span : Double
 } derive(Debug)
 
 ///|
@@ -358,6 +360,8 @@ pub fn evaluate_trace(
     worst_step: -1,
     best_score: -999999999.0,
     worst_score: 999999999.0,
+    terminal_score: 0.0,
+    reward_span: 0.0,
   }
 
   let mut zero_ratio_sum = 0.0
@@ -387,6 +391,9 @@ pub fn evaluate_trace(
       summary.worst_score = breakdown.clipped_total
       summary.worst_step = breakdown.step_index
     }
+    if breakdown.terminal {
+      summary.terminal_score = breakdown.clipped_total
+    }
   }
 
   summary.avg_zero_ratio = if summary.step_count == 0 {
@@ -394,6 +401,7 @@ pub fn evaluate_trace(
   } else {
     safe_div(zero_ratio_sum, summary.step_count.to_double(), config.epsilon)
   }
+  summary.reward_span = summary.best_score - summary.worst_score
 
   (breakdowns, summary)
 }

@@ -8,6 +8,7 @@ test {
   @test.assert_eq(breakdowns.length(), 3)
   @test.assert_eq(summary.step_count, 3)
   @test.assert_eq(summary.total_clipped <= 5.0, true)
+  @test.assert_eq(summary.reward_span >= 0.0, true)
 }
 
 ///|
