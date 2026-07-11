@@ -22,3 +22,8 @@ jobs:
 
       - name: Test
         run: moon test
+
+      - name: Verify generated interfaces
+        run: |
+          moon info
+          git diff --exit-code
