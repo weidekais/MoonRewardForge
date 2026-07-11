@@ -9,7 +9,7 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "username/moonrewardforge"
+name = "wdkwdk89/moonrewardforge"
 
 version = "0.1.0"
 

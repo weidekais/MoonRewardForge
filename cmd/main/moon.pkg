@@ -1,5 +1,5 @@
 import {
-  "username/moonrewardforge" @lib,
+  "wdkwdk89/moonrewardforge" @lib,
 }
 
 options(
