@@ -2,6 +2,11 @@
 
 MoonRewardForge is a MoonBit toolkit for modeling, normalizing, clipping, and debugging reward signals in reinforcement-learning style workflows.
 
+Repository links:
+
+- GitLink: <https://gitlink.org.cn/wdkwdk89/moonrewardforge>
+- GitHub: <https://github.com/weidekais/MoonRewardForge>
+
 It focuses on four practical questions:
 
 1. How much reward comes from the base objective, shaping terms, and penalties?
@@ -36,6 +41,7 @@ This project is intentionally framed as a reusable base:
 - `moonrewardforge_wbtest.mbt` whitebox tests
 - `.github/workflows/moon-ci.yml` minimal CI
 - `LICENSE` Apache-2.0
+- `docs/OSC2026_CHECKLIST.md` submission self-check
 
 ## Run locally
 
@@ -56,6 +62,7 @@ The only external references used for design were:
 - and general reward shaping literature for the underlying RL concepts.
 
 No upstream project was ported line-for-line.
+No other contributor should be introduced when you submit the project.
 
 ## License
 
