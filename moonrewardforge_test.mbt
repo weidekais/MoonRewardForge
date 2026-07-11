@@ -1,0 +1,22 @@
+///|
+test {
+  let (breakdowns, summary) = @moonrewardforge.evaluate_trace(
+    @moonrewardforge.sample_trace(),
+    @moonrewardforge.default_config(),
+  )
+
+  @test.assert_eq(breakdowns.length(), 3)
+  @test.assert_eq(summary.step_count, 3)
+  @test.assert_eq(summary.total_clipped <= 5.0, true)
+}
+
+///|
+test {
+  let report = @moonrewardforge.render_trace(
+    @moonrewardforge.sample_trace(),
+    @moonrewardforge.default_config(),
+  )
+
+  @test.assert_eq(report.contains("MoonRewardForge report"), true)
+  @test.assert_eq(report.contains("trace summary"), true)
+}
