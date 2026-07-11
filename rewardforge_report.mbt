@@ -54,13 +54,15 @@ pub fn render_trace(steps : Array[RewardStep], config : RewardConfig) -> String 
 
 ///|
 pub fn render_scenario_matrix() -> String {
-  let traces = sample_trace()
   let configs = sample_configs()
   let mut text = ""
-  for config in configs {
-    text = text + "=== \{config.mode.label()} ===\n"
-    text = text + render_trace(traces, config)
-    text = text + "\n\n"
+  for scenario in sample_scenarios() {
+    text = text + "### scenario: \{scenario.name}\n"
+    for config in configs {
+      text = text + "=== \{config.mode.label()} ===\n"
+      text = text + render_trace(scenario.steps, config)
+      text = text + "\n\n"
+    }
   }
   text
 }

@@ -21,3 +21,11 @@ test {
   @test.assert_eq(report.contains("MoonRewardForge report"), true)
   @test.assert_eq(report.contains("trace summary"), true)
 }
+
+///|
+test {
+  let matrix = @moonrewardforge.render_scenario_matrix()
+
+  @test.assert_eq(matrix.contains("scenario: baseline"), true)
+  @test.assert_eq(matrix.contains("scenario: control_loop"), true)
+}

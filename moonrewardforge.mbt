@@ -28,6 +28,12 @@ pub struct RewardStep {
 } derive(Debug)
 
 ///|
+pub struct RewardScenario {
+  name : String
+  steps : Array[RewardStep]
+} derive(Debug)
+
+///|
 pub struct RewardConfig {
   mode : NormalizationMode
   clip_min : Double
@@ -436,10 +442,36 @@ pub fn oscillating_terms() -> Array[RewardTerm] {
 
 ///|
 pub fn sample_trace() -> Array[RewardStep] {
+  sample_scenarios()[0].steps
+}
+
+///|
+pub fn sample_scenarios() -> Array[RewardScenario] {
   [
-    RewardStep::{ index: 0, terms: sample_terms(), terminal: false },
-    RewardStep::{ index: 1, terms: sparse_terms(), terminal: false },
-    RewardStep::{ index: 2, terms: oscillating_terms(), terminal: true },
+    RewardScenario::{
+      name: "baseline",
+      steps: [
+        RewardStep::{ index: 0, terms: sample_terms(), terminal: false },
+        RewardStep::{ index: 1, terms: sparse_terms(), terminal: false },
+        RewardStep::{ index: 2, terms: oscillating_terms(), terminal: true },
+      ],
+    },
+    RewardScenario::{
+      name: "sparse_goal",
+      steps: [
+        RewardStep::{ index: 0, terms: sparse_terms(), terminal: false },
+        RewardStep::{ index: 1, terms: sample_terms(), terminal: false },
+        RewardStep::{ index: 2, terms: sparse_terms(), terminal: true },
+      ],
+    },
+    RewardScenario::{
+      name: "control_loop",
+      steps: [
+        RewardStep::{ index: 0, terms: oscillating_terms(), terminal: false },
+        RewardStep::{ index: 1, terms: sample_terms(), terminal: false },
+        RewardStep::{ index: 2, terms: oscillating_terms(), terminal: true },
+      ],
+    },
   ]
 }
 
