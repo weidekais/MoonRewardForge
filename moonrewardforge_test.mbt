@@ -29,3 +29,29 @@ test {
   @test.assert_eq(matrix.contains("scenario: baseline"), true)
   @test.assert_eq(matrix.contains("scenario: control_loop"), true)
 }
+
+///|
+test {
+  // Edge case: test with single zero-contribution term
+  let steps = [
+    @moonrewardforge.RewardStep::{
+      index: 0,
+      terms: [
+        @moonrewardforge.RewardTerm::{
+          name: "zero",
+          raw: 0.0,
+          weight: 0.0,
+          kind: Base,
+        },
+      ],
+      terminal: true,
+    },
+  ]
+  let (breakdowns, summary) = @moonrewardforge.evaluate_trace(
+    steps,
+    @moonrewardforge.default_config(),
+  )
+  @test.assert_eq(breakdowns.length(), 1)
+  @test.assert_eq(summary.sparse_steps, 1)
+  @test.assert_eq(summary.total_clipped, 0.0)
+}

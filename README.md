@@ -43,6 +43,40 @@ This project is intentionally framed as a reusable base:
 - `LICENSE` Apache-2.0
 - `docs/OSC2026_CHECKLIST.md` submission self-check
 
+## Installation
+
+Add this library to your project by running:
+
+```bash
+moon add weidekais/moonrewardforge
+```
+
+## Core API Example
+
+Here is a quick example of how to evaluate a simple trace and print the summary:
+
+```moonbit
+import weidekais/moonrewardforge
+
+
+fn main {
+  let step = @moonrewardforge.RewardStep::{
+    index: 0,
+    terms: [
+      @moonrewardforge.RewardTerm::{ name: "goal", raw: 1.0, weight: 1.0, kind: Base },
+      @moonrewardforge.RewardTerm::{ name: "time_penalty", raw: -0.1, weight: 1.0, kind: Penalty },
+    ],
+    terminal: true,
+  }
+  let trace = [step]
+  let config = @moonrewardforge.default_config()
+  let (_breakdowns, summary) = @moonrewardforge.evaluate_trace(trace, config)
+  
+  println("Reward span: \{summary.reward_span}")
+  println("Final clipped total: \{summary.total_clipped}")
+}
+```
+
 ## Run locally
 
 ```bash

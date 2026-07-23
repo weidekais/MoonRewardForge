@@ -1,19 +1,19 @@
 ///|
-pub enum RewardKind {
+pub(all) enum RewardKind {
   Base
   Shaping
   Penalty
 } derive(Debug)
 
 ///|
-pub enum NormalizationMode {
+pub(all) enum NormalizationMode {
   None
   ScaleToAbsSum
   ZScore
 } derive(Debug)
 
 ///|
-pub struct RewardTerm {
+pub(all) struct RewardTerm {
   name : String
   raw : Double
   weight : Double
@@ -21,20 +21,20 @@ pub struct RewardTerm {
 } derive(Debug)
 
 ///|
-pub struct RewardStep {
+pub(all) struct RewardStep {
   index : Int
   terms : Array[RewardTerm]
   terminal : Bool
 } derive(Debug)
 
 ///|
-pub struct RewardScenario {
+pub(all) struct RewardScenario {
   name : String
   steps : Array[RewardStep]
 } derive(Debug)
 
 ///|
-pub struct RewardConfig {
+pub(all) struct RewardConfig {
   mode : NormalizationMode
   clip_min : Double
   clip_max : Double
@@ -42,7 +42,17 @@ pub struct RewardConfig {
 } derive(Debug)
 
 ///|
-pub struct RewardBreakdown {
+pub fn validate_config(config : RewardConfig) -> Unit {
+  if config.clip_min > config.clip_max {
+    panic()
+  }
+  if config.epsilon <= 0.0 {
+    panic()
+  }
+}
+
+///|
+pub(all) struct RewardBreakdown {
   step_index : Int
   term_count : Int
   raw_total : Double
@@ -60,7 +70,7 @@ pub struct RewardBreakdown {
 } derive(Debug)
 
 ///|
-pub struct TraceSummary {
+pub(all) struct TraceSummary {
   mut step_count : Int
   mut sparse_steps : Int
   mut clipped_steps : Int
@@ -302,6 +312,11 @@ pub fn evaluate_step(
   step : RewardStep,
   config : RewardConfig,
 ) -> RewardBreakdown {
+  validate_config(config)
+  if step.terms.length() == 0 {
+    panic()
+  }
+
   let values = reward_values(step.terms)
   let raw_total = sum_raw(step.terms)
   let weighted_total = sum_contributions(step.terms)
@@ -352,6 +367,11 @@ pub fn evaluate_trace(
   steps : Array[RewardStep],
   config : RewardConfig,
 ) -> (Array[RewardBreakdown], TraceSummary) {
+  validate_config(config)
+  if steps.length() == 0 {
+    panic()
+  }
+
   let breakdowns = Array::new(capacity=steps.length())
   let summary = TraceSummary::{
     step_count: 0,

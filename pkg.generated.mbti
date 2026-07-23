@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "wdkwdk89/moonrewardforge"
+package "weidekais/moonrewardforge"
 
 import {
   "moonbitlang/core/debug",
@@ -48,17 +48,19 @@ pub fn sum_contributions(Array[RewardTerm]) -> Double
 
 pub fn sum_raw(Array[RewardTerm]) -> Double
 
+pub fn validate_config(RewardConfig) -> Unit
+
 // Errors
 
 // Types and methods
-pub enum NormalizationMode {
+pub(all) enum NormalizationMode {
   None
   ScaleToAbsSum
   ZScore
 } derive(@debug.Debug)
 pub fn NormalizationMode::label(Self) -> String
 
-pub struct RewardBreakdown {
+pub(all) struct RewardBreakdown {
   step_index : Int
   term_count : Int
   raw_total : Double
@@ -75,31 +77,31 @@ pub struct RewardBreakdown {
   terminal : Bool
 } derive(@debug.Debug)
 
-pub struct RewardConfig {
+pub(all) struct RewardConfig {
   mode : NormalizationMode
   clip_min : Double
   clip_max : Double
   epsilon : Double
 } derive(@debug.Debug)
 
-pub enum RewardKind {
+pub(all) enum RewardKind {
   Base
   Shaping
   Penalty
 } derive(@debug.Debug)
 
-pub struct RewardScenario {
+pub(all) struct RewardScenario {
   name : String
   steps : Array[RewardStep]
 } derive(@debug.Debug)
 
-pub struct RewardStep {
+pub(all) struct RewardStep {
   index : Int
   terms : Array[RewardTerm]
   terminal : Bool
 } derive(@debug.Debug)
 
-pub struct RewardTerm {
+pub(all) struct RewardTerm {
   name : String
   raw : Double
   weight : Double
@@ -110,7 +112,7 @@ pub fn RewardTerm::is_penalty(Self) -> Bool
 pub fn RewardTerm::is_shaping(Self) -> Bool
 pub fn RewardTerm::is_sparse(Self) -> Bool
 
-pub struct TraceSummary {
+pub(all) struct TraceSummary {
   mut step_count : Int
   mut sparse_steps : Int
   mut clipped_steps : Int

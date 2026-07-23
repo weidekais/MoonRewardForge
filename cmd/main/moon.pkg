@@ -1,5 +1,5 @@
 import {
-  "wdkwdk89/moonrewardforge" @lib,
+  "weidekais/moonrewardforge" @lib,
 }
 
 options(
