@@ -20,7 +20,9 @@ It focuses on four practical questions:
 - Computes trace-level totals and sparsity ratios.
 - Compares `None`, `ScaleToAbsSum`, and `ZScore` normalization modes.
 - Renders a plain-text report that is easy to inspect in CI or from the terminal.
-- Ships with a small demo scenario matrix so the project runs out of the box.
+- Emits machine-readable quality alerts for sparse, clipped, and penalty-dominated signals.
+- Compares traces and runs a deterministic benchmark suite for regression checks.
+- Ships with a demo scenario matrix so the project runs out of the box.
 
 ## Why this topic
 
@@ -81,6 +83,7 @@ fn main {
 
 ```bash
 moon check
+moon build
 moon test
 moon run cmd/main
 ```
@@ -101,3 +104,28 @@ No other contributor should be introduced when you submit the project.
 ## License
 
 Apache-2.0
+
+## Production-oriented workflow
+
+The library is deterministic and dependency-light, so it can run in an
+evaluator, simulator, or CI job without a service. Evaluate a trace, inspect
+the summary, and turn the same result into quality alerts with
+audit_trace(trace, config, sparse_threshold).
+
+The benchmark API provides five deterministic cases covering dense progress,
+sparse goals, collision-heavy penalties, and control-loop oscillation.
+RewardAlert codes are stable: SPARSE_SIGNAL, CLIPPED_SIGNAL,
+PENALTY_DOMINATED, and SHAPING_DOMINATED.
+
+For request validation at an API boundary, call validate_trace_issues before
+evaluate_trace. This reports empty traces, empty steps, invalid clipping
+ranges, invalid epsilon values, and invalid sparsity thresholds without
+panicking.
+
+## Scope and limitations
+
+This release analyzes in-memory reward traces. It does not claim to train an
+agent, ingest arbitrary files, or replace an environment's reward contract.
+Callers should validate their own step ordering and choose thresholds that fit
+their domain. Configuration errors are rejected early; an empty trace or empty
+step is treated as programmer misuse.

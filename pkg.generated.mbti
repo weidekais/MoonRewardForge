@@ -8,7 +8,19 @@ import {
 // Values
 pub fn abs_value(Double) -> Double
 
+pub fn audit_trace(Array[RewardStep], RewardConfig, Double) -> Array[RewardAlert]
+
+pub fn benchmark_cases() -> Array[BenchmarkCase]
+
+pub fn benchmark_catalog() -> Array[BenchmarkCase]
+
+pub fn benchmark_report(RewardConfig) -> String
+
+pub fn catalog_report(RewardConfig) -> String
+
 pub fn clamp(Double, Double, Double) -> Double
+
+pub fn compare_traces(Array[RewardStep], Array[RewardStep], RewardConfig) -> (TraceSummary, TraceSummary, Double)
 
 pub fn count_sparse_terms(Array[RewardTerm]) -> Int
 
@@ -18,11 +30,19 @@ pub fn evaluate_step(RewardStep, RewardConfig) -> RewardBreakdown
 
 pub fn evaluate_trace(Array[RewardStep], RewardConfig) -> (Array[RewardBreakdown], TraceSummary)
 
+pub fn inspect_breakdown(RewardBreakdown, Double, Double) -> Array[RewardAlert]
+
+pub fn is_valid_trace(Array[RewardStep], RewardConfig, Double) -> Bool
+
+pub fn make_benchmark_case(String, Array[RewardStep], Double, Double) -> BenchmarkCase
+
 pub fn max_double(Double, Double) -> Double
 
 pub fn min_double(Double, Double) -> Double
 
 pub fn oscillating_terms() -> Array[RewardTerm]
+
+pub fn render_alerts(Array[RewardAlert]) -> String
 
 pub fn render_breakdown(RewardBreakdown) -> String
 
@@ -31,6 +51,12 @@ pub fn render_scenario_matrix() -> String
 pub fn render_summary(TraceSummary) -> String
 
 pub fn render_trace(Array[RewardStep], RewardConfig) -> String
+
+pub fn render_validation_issues(Array[ValidationIssue]) -> String
+
+pub fn run_benchmarks(RewardConfig) -> Array[TraceSummary]
+
+pub fn run_catalog_benchmarks(RewardConfig) -> Array[TraceSummary]
 
 pub fn safe_div(Double, Double, Double) -> Double
 
@@ -50,15 +76,42 @@ pub fn sum_raw(Array[RewardTerm]) -> Double
 
 pub fn validate_config(RewardConfig) -> Unit
 
+pub fn validate_config_issues(RewardConfig) -> Array[ValidationIssue]
+
+pub fn validate_trace_issues(Array[RewardStep], RewardConfig, Double) -> Array[ValidationIssue]
+
 // Errors
 
 // Types and methods
+pub(all) enum AlertLevel {
+  Info
+  Warning
+  Critical
+} derive(@debug.Debug)
+pub fn AlertLevel::label(Self) -> String
+
+pub(all) struct BenchmarkCase {
+  name : String
+  scenario : RewardScenario
+  expected_min_total : Double
+  expected_max_total : Double
+} derive(@debug.Debug)
+
 pub(all) enum NormalizationMode {
   None
   ScaleToAbsSum
   ZScore
 } derive(@debug.Debug)
 pub fn NormalizationMode::label(Self) -> String
+
+pub(all) struct RewardAlert {
+  step_index : Int
+  level : AlertLevel
+  code : String
+  message : String
+  value : Double
+} derive(@debug.Debug)
+pub fn RewardAlert::render(Self) -> String
 
 pub(all) struct RewardBreakdown {
   step_index : Int
@@ -128,6 +181,22 @@ pub(all) struct TraceSummary {
   mut terminal_score : Double
   mut reward_span : Double
 } derive(@debug.Debug)
+
+pub(all) enum ValidationCode {
+  EmptyTrace
+  EmptyStep
+  InvalidClipRange
+  InvalidEpsilon
+  InvalidSparseThreshold
+} derive(@debug.Debug)
+pub fn ValidationCode::label(Self) -> String
+
+pub(all) struct ValidationIssue {
+  code : ValidationCode
+  step_index : Int
+  message : String
+} derive(@debug.Debug)
+pub fn ValidationIssue::render(Self) -> String
 
 // Type aliases
 
